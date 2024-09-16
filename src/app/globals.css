@@ -25,3 +25,11 @@ body {
     text-wrap: balance;
   }
 }
+.navlink{
+  @apply p-2 px-4 mx-5 hover:text-black rounded-sm hover:bg-slate-300 hover:bg-opacity-95 transition duration-300 hover:scale-110
+}
+.active{
+  border-bottom: 3px solid #09c;
+  font-weight: 700;
+
+}
