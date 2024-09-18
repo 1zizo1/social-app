@@ -16,7 +16,8 @@ export default function Navbar() {
           <Link href='/posts'> <li className={pathName === '/posts' ? 'active navlink' : 'navlink'}>Posts</li></Link>
          <Link href='/contact'> <li className={pathName === '/contact' ? 'active navlink' : 'navlink'}> contact</li></Link>
          <Link href='/gallery'> <li className={pathName === '/gallery' ? 'active navlink' : 'navlink'}> Gallery</li></Link>
-         <Link href='/login'><li className={pathName === '/login' ? 'active navlink' : 'navlink'}> Login</li></Link>
+         <Link href='/Login'><li className={pathName === '/Login' ? 'active navlink' : 'navlink'}> Login</li></Link>
+         <Link href='/Register'><li className={pathName === '/Register' ? 'active navlink' : 'navlink'}> Register</li></Link>
 
         </ul>
       </nav>

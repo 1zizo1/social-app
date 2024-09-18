@@ -1,6 +1,6 @@
 'use client'
 import Typography from '@mui/material/Typography'
-import Profile from './_Components/Profile/page';
+import Profile from './(Pages)/Profile/page';
 import {useSelector } from 'react-redux';
 import { State } from '../interfaces/state'
 import Allposts from './_Components/Allposts/Allposts';
