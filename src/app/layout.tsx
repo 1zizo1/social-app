@@ -7,21 +7,22 @@ import './globals.css'
 import theme from '@/theme';
 import { Provider } from 'react-redux';
 import { store } from '@/lib/store';
+import { Toaster } from 'react-hot-toast';
 // or `v1X-appRouter` if you are using Next.js v1X
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <Provider store={store}>
-      <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
+        <body>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <Navbar />
+              <main>{children}</main>
+              <Toaster />
+              <Footer />
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </body>
 
       </Provider>
     </html>

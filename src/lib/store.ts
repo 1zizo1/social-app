@@ -10,3 +10,4 @@ export const store =configureStore({
        posts:postsReducer
     }
 })
+export type storeDispatch =typeof store.dispatch

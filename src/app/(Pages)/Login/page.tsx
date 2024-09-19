@@ -1,8 +1,40 @@
+'use client'
 import React from 'react'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Button, Paper, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { login } from '@/lib/authSlice';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import {storeDispacth} from'@/lib/store'
 export default function Login() {
+const dispatch =useDispatch<storeDispacth>()
+const router =useRouter()
+const formik =useFormik({
+    initialValues:{
+      email:'',
+      password:''
+    },
+    onSubmit:function(val:{email:string,password:string}){
+      dispatch(login(val))
+      .then((resp:any)=>{
+        resp
+        console.log(resp.payload.data.token)
+        if(resp.payload.data.message=='success'){
+          toast.success('login successfully')
+          localStorage.setItem('loggedToken',resp.payload.data.token)
+          router.push('/')
+        }else{
+          toast.error('invaild mail or password')
+        }
+      }).catch((err)=>{
+        console.log(err);
+        
+      })
+    }
+  })
   return (
     <>
       <Container sx={{ p: 5 }} color='primary' maxWidth="sm">
@@ -12,7 +44,7 @@ export default function Login() {
         <Box sx={{ p: 2 }}>
           <Paper elevation={20} sx={{ mt: 5, P: 5 }}>
 
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
               <Box sx={{ p: 2 }}>
                 <TextField
                   required
@@ -21,6 +53,9 @@ export default function Login() {
                   name="email"
                   sx={{ my: 2, width: '100%' }}
                   autoComplete="email"
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+
                 />
               </Box>
               <Box sx={{ p: 2 }}>
@@ -32,8 +67,9 @@ export default function Login() {
                   type="password"
                   id="password"
                   sx={{ my: 2, width: '100%' }}
-
+                  onChange={formik.handleChange}
                   autoComplete="new-password"
+                  value={formik.values.password}
                 />
               </Box>
 

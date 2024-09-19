@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../../interfaces/state'
 import { useEffect } from 'react';
 import { getAllposts } from '@/lib/postslice';
-
+import Container from '@mui/material/Container'
+import CardPost from '../Post/page';
 export default function Allposts() {
     const dispatsh =useDispatch<any>()
 const { allPosts, userPost, isLoading, isError } = useSelector((state: State) => state.posts)
@@ -14,10 +15,15 @@ dispatsh(getAllposts())
 
   return (
     <> 
-      {isLoading?<h1 className='text-center p-10'> Loading...</h1>:
+      {/* {isLoading?<h1 className='text-center p-10'> Loading...</h1>:
       allPosts?.map((post:any)=>  <h4 key={post._id}> {post.body}
       </h4>) 
-      }
+      } */}
+      <Container maxWidth="sm">
+        <CardPost postsData={allPosts} />
+      </Container>
+      
+
     </>
   )
 }

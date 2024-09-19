@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const headers = {token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZlNzhlZTI0ZTk0MmVjNTdjNGE5MGNiIiwiaWF0IjoxNzI2NDUxNDY1fQ.ArMqgmlVIuzcc4DEbm5-dkW21EeAEWsbcMkstQIAy-Q'}
+const headers = {token:localStorage.getItem('loggedToken')}
 export let getAllposts = createAsyncThunk("postsSlice/getAllposts", async () => {
   let response = await fetch(
     `https://linked-posts.routemisr.com/posts?limit=50`,
