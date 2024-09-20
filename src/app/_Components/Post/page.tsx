@@ -6,76 +6,139 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { red, grey } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Box, Container } from '@mui/material';
-import CommentIcon from '@mui/icons-material/Comment'
+import { Box, Container, Paper, Divider } from '@mui/material';
+import CommentIcon from '@mui/icons-material/Comment';
 import Image from 'next/image';
-export default function CardPost({postsData}) {
-    console.log(postsData);
-    
+import avatarImg from "../../../assets/spooky-man.png";
 
-  return <>
-  
-  <Container sx={{p:5, mt:4}} maxWidth='sm'>
-{postsData.length >0 ? postsData.map((post:any)=><Card key={post._id} sx={{p:5}}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-           <Image src={post?.user?.photo} alt='zoz' width={30} height={30} />
+export default function CardPost({ postsData }) {
+  function handleImg(imgPath: string) {
+    const keyword = imgPath?.split('/');
+    const keyImg = keyword[keyword.length - 1];
+    return keyImg === 'undefined' ? avatarImg : imgPath;
+  }
 
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={post?.user?.name}
-        subheader={post?.createdAt}
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+  function timeAgo(timestamp: string): string {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffInSeconds = Math.floor((now.getTime() - time.getTime()) / 1000);
+
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      week: 604800,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+      second: 1,
+    };
+
+    for (const key in intervals) {
+      const interval = Math.floor(diffInSeconds / intervals[key as keyof typeof intervals]);
+      if (interval >= 1) {
+        return interval === 1 ? `1 ${key} ago` : `${interval} ${key}s ago`;
+      }
+    }
+    return "just now";
+  }
+
+  return (
+    <Container sx={{ p: 5, mt: 4 }} maxWidth="sm">
+      {postsData.length > 0 ? (
+        postsData.map((post: any) => (
+          <Card key={post._id} sx={{ p: 3, mb: 3, boxShadow: 3, borderRadius: '12px' }}>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: red[500] }}>
+                  <Image src={handleImg(post?.user?.photo)} alt={post?.user?.name} width={40} height={40} />
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title={post?.user?.name}
+              subheader={timeAgo(post?.createdAt)}
+              sx={{ textAlign: 'left' }}
+            />
+
+            <CardMedia
+              component="img"
+              height="200"
+              image={post?.image}
+              alt="Post image"
+              sx={{ borderRadius: '8px', objectFit: 'cover' }}
+            />
+
+            <CardContent>
+              <Typography variant="body1" sx={{ color: 'text.primary', mb: 2 }}>
+                {post?.description || 'No description available.'}
+              </Typography>
+              <Divider />
+            </CardContent>
+
+            <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
+              <Box>
+                <IconButton aria-label="add to favorites" sx={{ '&:hover': { color: red[500] } }}>
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton aria-label="share" sx={{ '&:hover': { color: grey[700] } }}>
+                  <ShareIcon />
+                </IconButton>
+                <IconButton aria-label="comment">
+                  <CommentIcon />
+                </IconButton>
+              </Box>
+            </CardActions>
+
+            {post?.comments?.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                {post.comments.map((comment: any) => (
+                  <Paper
+                    key={comment?._id}
+                    elevation={1}
+                    sx={{
+                      p: 2,
+                      mb: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: grey[100],
+                      borderRadius: '12px',
+                    }}
+                  >
+                    <Avatar sx={{ mr: 2 }}>
+                      <Image src={handleImg(comment?.commentCreator?.photo)} alt={comment?.commentCreator?.name} width={30} height={30} />
+                    </Avatar>
+
+                    <Box>
+                      <Typography variant="body2" color="text.primary">
+                        {comment?.commentCreator?.name}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                        {comment?.content}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: grey[500], mt: 1 }}>
+                        {timeAgo(comment?.createdAt)}
+                      </Typography>
+                    </Box>
+                  </Paper>
+                ))}
+              </Box>
+            )}
+          </Card>
+        ))
+      ) : (
+        <Typography variant="body1" color="text.secondary">
+          No posts available.
         </Typography>
-      </CardContent>
-      <CardMedia
-        component="img"
-        height="194"
-        image={post?.image}
-        alt="Paella dish"
-      />
-      
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        
-       <IconButton aria-label="comment">
-         <CommentIcon/>
-       </IconButton>
-      </CardActions>
-{post?.comments?.map((comment)=><Box key={comment?._id} sx={{display:'flex',gap:'3',p:'1' ,my:'0.5rem'}}>
-        <Avatar alt='user' src={comment?.commentCreator?.Photo}>
-       
-        </Avatar>
-        <Typography variant="body1" color="initial" sx={{p:'1rem' ,display:'flex',alignItems:'center', justifyContent:'start',mx:2 ,backgroundColor:'#ccc',borderRadius:'2rem'}}>
-        {comment?.content}
-        </Typography>
-     </Box>)}
-    </Card>
-) :''}
-
- 
-  </Container>
-  </>
+      )}
+    </Container>
+  );
 }
