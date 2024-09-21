@@ -16,8 +16,12 @@ import { Box, Container, Paper, Divider } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import Image from 'next/image';
 import avatarImg from "../../../assets/spooky-man.png";
+import { useRouter } from 'next/navigation';
 
 export default function CardPost({ postsData }) {
+  const {push}= useRouter()
+console.log(postsData);
+
   function handleImg(imgPath: string) {
     const keyword = imgPath?.split('/');
     const keyImg = keyword[keyword.length - 1];
@@ -79,7 +83,7 @@ export default function CardPost({ postsData }) {
 
             <CardContent>
               <Typography variant="body1" sx={{ color: 'text.primary', mb: 2 }}>
-                {post?.description || 'No description available.'}
+                {post?.body || 'No description available.'}
               </Typography>
               <Divider />
             </CardContent>
@@ -92,13 +96,50 @@ export default function CardPost({ postsData }) {
                 <IconButton aria-label="share" sx={{ '&:hover': { color: grey[700] } }}>
                   <ShareIcon />
                 </IconButton>
-                <IconButton aria-label="comment">
-                  <CommentIcon />
+                <IconButton aria-label="comment" onClick={()=>{
+                  push(`/posts/${post._id}`)
+                }}>
+                  <CommentIcon  />
                 </IconButton>
               </Box>
             </CardActions>
 
-            {post?.comments?.length > 0 && (
+
+            {post?.comments[0] && (
+              <Box sx={{ mt: 2 }}>
+
+                <Paper
+                  elevation={1}
+                  sx={{
+                    p: 2,
+                    mb: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: grey[100],
+                    borderRadius: '12px',
+                  }}
+                >
+                  <Avatar sx={{ mr: 2 }}>
+                    <Image src={handleImg(post?.comments[0]?.commentCreator?.photo)} alt={post?.comments[0]?.commentCreator?.name} width={30} height={30} />
+                  </Avatar>
+
+                  <Box>
+                    <Typography variant="body2" color="text.primary">
+                      {post?.comments[0]?.commentCreator?.name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                      {post?.comments[0]?.content}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: grey[500], mt: 1 }}>
+                      {timeAgo(post?.comments[0]?.createdAt)}
+                    </Typography>
+                  </Box>
+                </Paper>
+
+              </Box>
+            )}
+
+            {/* {post?.comments?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 {post.comments.map((comment: any) => (
                   <Paper
@@ -131,7 +172,7 @@ export default function CardPost({ postsData }) {
                   </Paper>
                 ))}
               </Box>
-            )}
+            )} */}
           </Card>
         ))
       ) : (
