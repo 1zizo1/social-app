@@ -8,9 +8,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function postDetails({ params }) {
-    const { postDetails } = useSelector((state: State) => state.posts)
-    console.log( typeof(postDetails));
-    
+    const { postDetails } = useSelector((state: State) => state.posts)    
     const dispatch = useDispatch<storeDispatch>()
     useEffect(() => {
         dispatch(getPostDetails(params.postID)).then((res) => {
@@ -21,7 +19,7 @@ export default function postDetails({ params }) {
     return (
         <>
             <Container >
-                <CardPost postsData={postDetails} />
+                <CardPost postsData={postDetails} showAllPosts={true} />
             </Container>
         </>
     )

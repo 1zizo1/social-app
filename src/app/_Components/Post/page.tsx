@@ -17,11 +17,10 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Image from 'next/image';
 import avatarImg from "../../../assets/spooky-man.png";
 import { useRouter } from 'next/navigation';
+import Loading from '@/app/loading';
 
-export default function CardPost({ postsData }) {
+export default function CardPost({ postsData ,showAllPosts =false }) {
   const {push}= useRouter()
-console.log(postsData);
-
   function handleImg(imgPath: string) {
     const keyword = imgPath?.split('/');
     const keyImg = keyword[keyword.length - 1];
@@ -105,7 +104,7 @@ console.log(postsData);
             </CardActions>
 
 
-            {post?.comments[0] && (
+            { !showAllPosts && post?.comments[0] && (
               <Box sx={{ mt: 2 }}>
 
                 <Paper
@@ -139,7 +138,7 @@ console.log(postsData);
               </Box>
             )}
 
-            {/* {post?.comments?.length > 0 && (
+            {showAllPosts&&post?.comments?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 {post.comments.map((comment: any) => (
                   <Paper
@@ -172,13 +171,12 @@ console.log(postsData);
                   </Paper>
                 ))}
               </Box>
-            )} */}
+            )}
           </Card>
         ))
       ) : (
-        <Typography variant="body1" color="text.secondary">
-          No posts available.
-        </Typography>
+        
+          <Loading/>
       )}
     </Container>
   );
