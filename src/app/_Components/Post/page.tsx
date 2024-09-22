@@ -52,7 +52,7 @@ export default function CardPost({ postsData ,showAllPosts =false }) {
   }
 
   return (
-    <Container sx={{ p: 5, mt: 4 }} maxWidth="sm">
+    <Container sx={{ p: 5, mt: 4 }} maxWidth="sm"  color='primary'>
       {postsData.length > 0 ? (
         postsData.map((post: any) => (
           <Card key={post._id} sx={{ p: 3, mb: 3, boxShadow: 3, borderRadius: '12px' }}>
@@ -105,7 +105,7 @@ export default function CardPost({ postsData ,showAllPosts =false }) {
 
 
             { !showAllPosts && post?.comments[0] && (
-              <Box sx={{ mt: 2 }}>
+              <Box sx={{ mt: 2 }}  >
 
                 <Paper
                   elevation={1}
@@ -114,7 +114,7 @@ export default function CardPost({ postsData ,showAllPosts =false }) {
                     mb: 2,
                     display: 'flex',
                     alignItems: 'center',
-                    backgroundColor: grey[100],
+                    backgroundColor: '#121212',
                     borderRadius: '12px',
                   }}
                 >
@@ -149,7 +149,7 @@ export default function CardPost({ postsData ,showAllPosts =false }) {
                       mb: 2,
                       display: 'flex',
                       alignItems: 'center',
-                      backgroundColor: grey[100],
+                      backgroundColor: '#121212',
                       borderRadius: '12px',
                     }}
                   >

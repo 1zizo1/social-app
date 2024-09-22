@@ -3,7 +3,8 @@ import { TextField, Button, Paper, Typography, IconButton, Container, Dialog } f
 import { styled } from '@mui/system';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CloseIcon from '@mui/icons-material/Close';
-
+import axios from 'axios';
+import toast from 'react-hot-toast';
 const CreatePostContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     display: 'flex',
@@ -71,7 +72,7 @@ const UploadButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-export default function CreatePost({ handleCreatePost }) {
+export default function CreatePost() {
     const [postContent, setPostContent] = useState('');
     const [image, setImage] = useState(null);
     const [openDialog, setOpenDialog] = useState(false); // State to handle dialog open/close
@@ -88,10 +89,33 @@ export default function CreatePost({ handleCreatePost }) {
         setImage(null); // Clear the image preview
         fileInputRef.current.value = ''; // Reset the file input
     };
+    async function addPost(values) {
+        
+        const { data } = await axios.post(`https://linked-posts.routemisr.com/posts`,
+            values,
+            {headers:{
+                 token: localStorage.getItem("loggedToken")
+            }}
+        )
+        console.log(data);
+        if(data.message=='success'){
+            toast.success('shared post')
+          }else{
+            toast.error('error failed to share')
+          }
+    }
+    function handleSubmit(e) {
+        e.preventDefault()
+        const body = e.target.body.value
+        const image = e.target.image.files[0]
+        const formData = new FormData()
+        formData.append('body', body)
+        formData.append('image', image)
+        addPost(formData)
+        // console.log('submit',e.target.body.value);
+        // console.log('image',e.target.image.files[0]);
 
-    const handleSubmit = () => {
         if (postContent.trim()) {
-            handleCreatePost({ content: postContent, image }); // Pass both content and image
             setPostContent(''); // Clear input after submission
             setImage(null); // Clear the image preview
         }
@@ -111,30 +135,36 @@ export default function CreatePost({ handleCreatePost }) {
                 Create a New Post
             </Typography>
             <Container>
-                <CreatePostContainer>
-                    <InputField
-                        variant="outlined"
-                        placeholder="What's on your mind?"
-                        multiline
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
-                    />
-                    <label htmlFor="upload-button">
-                        <HiddenInput
-                            accept="image/*"
-                            id="upload-button"
-                            type="file"
-                            onChange={handleImageChange}
-                            ref={fileInputRef} // Connect the ref to the input
+                <form onSubmit={handleSubmit}>
+
+                    <CreatePostContainer>
+                        <InputField
+                            variant="outlined"
+                            placeholder="What's on your mind?"
+                            multiline
+                            name='body'
+                            value={postContent}
+                            onChange={(e) => setPostContent(e.target.value)}
                         />
-                        <UploadButton component="span">
-                            <AddPhotoAlternateIcon style={{ color: 'white' }} />
-                        </UploadButton>
-                    </label>
-                    <CreatePostButton onClick={handleSubmit} variant="contained">
-                        Post
-                    </CreatePostButton>
-                </CreatePostContainer>
+                        <label htmlFor="upload-button">
+                            <HiddenInput
+                                accept="image/*"
+                                id="upload-button"
+                                type="file"
+                                name='image'
+                                onChange={handleImageChange}
+                                ref={fileInputRef} // Connect the ref to the input
+                            />
+                            <UploadButton component="span">
+                                <AddPhotoAlternateIcon style={{ color: 'white' }} />
+                            </UploadButton>
+                        </label>
+                        <CreatePostButton type='submit' variant="contained">
+                            Post
+                        </CreatePostButton>
+                    </CreatePostContainer>
+
+                </form>
             </Container>
             <Container maxWidth="sm" sx={{ pb: 2 }}>
                 {image && (
