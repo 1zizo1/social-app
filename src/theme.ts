@@ -1,39 +1,40 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 
-// Define a custom theme for Rehme White
+// Define a custom theme for Dark Mode
 const theme = createTheme({
   palette: {
+    mode: 'dark', // Set the mode to dark
     primary: {
-      main: '#f7f7f7', // Rehme white or light neutral white as the primary color
+      main: '#bb86fc', // A light purple for primary color
     },
     secondary: {
-      main: '#e0e0e0', // Light gray as a complementary secondary color
+      main: '#03dac6', // A teal for secondary color
     },
     background: {
-      default: '#fafafa', // Light background color, close to white for the overall layout
-      paper: '#ffffff',   // Paper elements with a white background for clarity
+      default: '#121212', // Dark background color
+      paper: '#1e1e1e',   // Darker paper elements for contrast
     },
     text: {
-      primary: '#000000', // Black for primary text for strong contrast
-      secondary: '#555555', // Gray for secondary text
+      primary: '#ffffff', // White for primary text for strong contrast
+      secondary: '#b0b0b0', // Light gray for secondary text
     },
   },
   typography: {
-    fontFamily: 'var(--font-roboto)',  // Keep custom font family
+    fontFamily: 'var(--font-roboto)', // Keep custom font family
     h1: {
       fontSize: '2.5rem',
       fontWeight: 700,
-      color: '#000', // Darker font for contrast against white background
+      color: '#ffffff', // White for headers in dark mode
     },
     h2: {
       fontSize: '2rem',
       fontWeight: 600,
-      color: '#000', // Same contrast rule
+      color: '#ffffff', // Same for secondary headers
     },
     button: {
       textTransform: 'none', // Disable uppercase text transformation on buttons
-      color: '#000',         // Button text in black for contrast
+      color: '#ffffff', // Button text in white for contrast
     },
   },
   components: {
@@ -42,32 +43,32 @@ const theme = createTheme({
         root: {
           borderRadius: 8, // Smooth border radius for buttons
           padding: '10px 20px', // Custom padding for buttons
-          color: '#000', // Button text color in black
+          color: '#ffffff', // Button text color in white
         },
         containedPrimary: {
-          backgroundColor: '#f7f7f7', // Rehme white primary button color
-          color: '#000', // Text in black for contrast
+          backgroundColor: '#bb86fc', // Light purple for primary button
+          color: '#ffffff', // Text in white for contrast
           '&:hover': {
-            backgroundColor: '#e0e0e0', // Slightly darker shade for hover state
+            backgroundColor: '#9b68e4', // Slightly darker shade for hover state
           },
         },
         outlinedPrimary: {
-          borderColor: '#e0e0e0', // Outline for buttons
-          color: '#000', // Black text for contrast
+          borderColor: '#03dac6', // Outline for buttons
+          color: '#ffffff', // White text for contrast
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          borderRadius: '4px',
-          backgroundColor: '#f7f7f7', // Rehme white background for input fields
-          color: '#000', // Black text color for form readability
+          borderRadius: 4,
+          backgroundColor: '#1e1e1e', // Dark background for input fields
+          color: '#ffffff', // White text color for form readability
           '& .MuiInputBase-root': {
-            color: '#000', // Input text in black
+            color: '#ffffff', // Input text in white
           },
           '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#e0e0e0', // Border in light gray
+            borderColor: '#03dac6', // Border in teal
           },
         },
       },

@@ -13,9 +13,8 @@ export default function Navbar() {
 
         <ul className="list-none flex justify-center p-2 ">
           <Link href='/'>   <li className={pathName === '/' ? 'active navlink' : 'navlink'}> Home</li></Link>
-          <Link href='/posts'> <li className={pathName === '/posts' ? 'active navlink' : 'navlink'}>Posts</li></Link>
-         <Link href='/contact'> <li className={pathName === '/contact' ? 'active navlink' : 'navlink'}> contact</li></Link>
-         <Link href='/gallery'> <li className={pathName === '/gallery' ? 'active navlink' : 'navlink'}> Gallery</li></Link>
+         <Link href='/Contact'> <li className={pathName === '/Contact' ? 'active navlink' : 'navlink'}> Contact</li></Link>
+         <Link href='/Profile'> <li className={pathName === '/gallery' ? 'active navlink' : 'navlink'}> Gallery</li></Link>
          <Link href='/Login'><li className={pathName === '/Login' ? 'active navlink' : 'navlink'}> Login</li></Link>
          <Link href='/Register'><li className={pathName === '/Register' ? 'active navlink' : 'navlink'}> Register</li></Link>
 

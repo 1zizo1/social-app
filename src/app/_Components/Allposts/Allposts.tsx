@@ -15,10 +15,7 @@ dispatsh(getAllposts())
 
   return (
     <> 
-      {/* {isLoading?<h1 className='text-center p-10'> Loading...</h1>:
-      allPosts?.map((post:any)=>  <h4 key={post._id}> {post.body}
-      </h4>) 
-      } */}
+    
       <Container maxWidth="sm">
         <CardPost postsData={allPosts} />
       </Container>

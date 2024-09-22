@@ -4,11 +4,13 @@ import Profile from './(Pages)/Profile/page';
 import {useSelector } from 'react-redux';
 import { State } from '../interfaces/state'
 import Allposts from './_Components/Allposts/Allposts';
+import CreatePost from './_Components/createPost/page';
 export default function Home() {
   const { counter } = useSelector((state: State) => state.counter)
 
   return (
     <>
+    <CreatePost/>
   <Allposts/>
       <Profile />
        
